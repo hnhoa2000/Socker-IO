@@ -3,6 +3,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import { engine } from 'express-handlebars';
 const app = express();
+const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 
 //set view engine
@@ -12,7 +13,7 @@ app.set('views', './views');
 
 app.use(express.static('./public'));
 const io = new Server(server);
-server.listen(3000, () => {
+server.listen(PORT, () => {
     console.log('app dang chay')
 });
 
