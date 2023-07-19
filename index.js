@@ -12,6 +12,7 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.use(express.static('./public'));
+app.use(cors());
 const io = new Server(server);
 server.listen(PORT, () => {
     console.log('app dang chay')
