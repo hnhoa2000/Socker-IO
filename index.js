@@ -1,5 +1,6 @@
 import express from "express";
 import http from 'http';
+import cors from 'cors';
 import { Server } from 'socket.io';
 import { engine } from 'express-handlebars';
 const app = express();
