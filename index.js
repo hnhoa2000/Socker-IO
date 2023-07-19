@@ -14,7 +14,12 @@ app.set('views', './views');
 
 app.use(express.static('./public'));
 app.use(cors());
-const io = new Server(server);
+const io = new Server(server, {
+    cors: {
+        origin: "https://socker-io.onrender.com",
+        methods: ["GET", "POST", "PUT", "DELETE"]
+    }
+});
 server.listen(PORT, () => {
     console.log('app dang chay')
 });
