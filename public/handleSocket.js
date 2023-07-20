@@ -1,4 +1,5 @@
 const socket = io('https://socker-io.onrender.com');
+//const socket = io('http://localhost:3000');
 
 socket.on('server-send-register-fail', () => {
     alert('username da ton tai!!!');
@@ -29,6 +30,20 @@ socket.on('someone-stop-typing', () => {
     $('#thongbao').html("");
 })
 
+//ROOM
+socket.on('server-send-list-rooms', (data) => {
+    $('#listRoom').html('');
+    data.map(room => {
+        $('#listRoom').append(`<h4>${room}</h4>`);
+    })
+})
+socket.on('server-send-room', (data) => {
+    $('#roomHienTai').html(data);
+})
+socket.on('server-chat', (data) => {
+    $('#right').append(`<div>${data}</div>`);
+})
+
 $(document).ready(() => {
     $('#chatForm').hide();
     $('#loginForm').show();
@@ -52,6 +67,14 @@ $(document).ready(() => {
     })
 
     $('#btnSendMessage').click(() => {
-        socket.emit('client-send-message', $('#txtMessage').val())
+        socket.emit('client-send-message', $('#txtMessage').val());
+    })
+
+    //ROOM
+    $('#btnCreateRoom').click(() => {
+        socket.emit('create-room', $('#txtRoom').val());
+    })
+    $('#btnChat').click(() => {
+        socket.emit('user-chat', $('#txtMessage').val());
     })
 })

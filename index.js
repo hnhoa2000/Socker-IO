@@ -4,7 +4,7 @@ import cors from 'cors';
 import { Server } from 'socket.io';
 import { engine } from 'express-handlebars';
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const server = http.createServer(app);
 
 //set view engine
@@ -55,6 +55,7 @@ io.on('connection', (socket) => {
         userArray = userArray.filter(user => socket.Username !== user);
         socket.broadcast.emit('server-send-list-user', userArray);
     })
+    //socket.adapter.room //danh sach room trong socket
     // socket.on('send', (data) => {
     //     //io.sockets.emit('Server-send-data', data);
     //     //socket.emit('Server-send-data', data);
@@ -65,9 +66,22 @@ io.on('connection', (socket) => {
         userArray = userArray.filter(user => socket.Username !== user);
         io.sockets.emit('server-send-list-user', userArray);
     })
+
+    //ROOM
+    socket.on('create-room', (data) => {
+        socket.join(data); //join vao 1 room
+        socket.room = data;
+        const rooms = io.of("/").adapter.rooms;
+        const arrayRooms = [...rooms.keys()];
+        io.sockets.emit('server-send-list-rooms', arrayRooms);
+        socket.emit('server-send-room', data);
+    })
+    socket.on('user-chat', (data) => {
+        io.sockets.in(socket.room).emit('server-chat', data);
+    })
 })
 
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render('room');
 })
 

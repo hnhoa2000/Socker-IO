@@ -1,0 +1,21 @@
+body {
+  background-color: yellow;
+}
+
+#left {
+  width: 20%;
+  float: left;
+  border: solid 1px pink;
+}
+
+#right {
+  width: 80%;
+  float: right;
+}
+
+#roomHienTai {
+  background-color: gray;
+  width: 100px;
+  float: right;
+  color: white;
+}
